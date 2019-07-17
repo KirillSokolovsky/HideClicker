@@ -23,13 +23,16 @@
         {
             InitializeComponent();
 
-            var h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Google Chrome");
-            _h = WinApi.FindWindowEx(h, IntPtr.Zero, "Chrome_RenderWidgetHostHWND", IntPtr.Zero);
+            //var h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Google Chrome");
+            //_h = WinApi.FindWindowEx(h, IntPtr.Zero, "Chrome_RenderWidgetHostHWND", IntPtr.Zero);
+
+            _h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Mozilla Firefox");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MouseService.LeftClick(_h, 535, 384);
+            //MouseService.RightClick(_h, 5, 5);
+            MouseService.LeftClick(_h, 530, 450);
         }
     }
 }

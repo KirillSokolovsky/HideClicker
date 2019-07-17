@@ -21,6 +21,10 @@
         public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+
+        [DllImport("user32.dll")]
         public static extern IntPtr WindowFromPoint(Win32Point p);
 
         [DllImport("user32.dll")]
@@ -36,7 +40,7 @@
         public Int32 Y;
     };
 
-    public enum MouserAction : uint
+    public enum MouserAction : int
     {
         MouseFIRST = 0x0200,
         MouseMOVE = 0x0200,

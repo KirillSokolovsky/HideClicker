@@ -21,7 +21,7 @@
 
         private static void Action(IntPtr windowHandle, MouserAction actionType, int x, int y)
         {
-            WinApi.PostMessage(windowHandle, (uint)actionType, (IntPtr)0, (IntPtr)(x | (y << 16)));
+            WinApi.SendMessage(windowHandle, (int)actionType, (IntPtr)0, (IntPtr)(x | (y << 16)));
         }
     }
 }
