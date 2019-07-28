@@ -57,11 +57,14 @@
                             if (!Model.IsDpcOnly)
                             {
                                 MonsGame.Avatars.A24.LClick();
+                                Thread.Sleep(500);
                                 MonsGame.Avatars.Buy.LClick(5);
+                                Thread.Sleep(1000);
                             }
                             if (!Model.IsDpsOnly)
                             {
                                 MonsGame.Avatars.A1.LClick();
+                                Thread.Sleep(500);
                                 MonsGame.Avatars.Buy.LClick(5);
                             }
                         }
@@ -70,11 +73,14 @@
                             if (!Model.IsDpsOnly)
                             {
                                 MonsGame.Avatars.A1.LClick();
+                                Thread.Sleep(500);
                                 MonsGame.Avatars.Buy.LClick(5);
+                                Thread.Sleep(1000);
                             }
                             if (!Model.IsDpcOnly)
                             {
                                 MonsGame.Avatars.A24.LClick();
+                                Thread.Sleep(500);
                                 MonsGame.Avatars.Buy.LClick(5);
                             }
                         }
