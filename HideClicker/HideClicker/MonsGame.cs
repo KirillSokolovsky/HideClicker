@@ -43,6 +43,7 @@
             public static KPoint A10 { get; } = KPoint.N(530, 730);
             public static KPoint A11 { get; } = KPoint.N(630, 730);
             public static KPoint A12 { get; } = KPoint.N(730, 730);
+            public static KPoint A24 { get; } = KPoint.N(1300, 730);
 
             public static List<KPoint> All { get; } = new List<KPoint>
             {
@@ -53,12 +54,15 @@
         public static class Fight
         {
             public static KPoint Mons { get; } = KPoint.N(940, 530);
-            public static KPoint Boss { get; } = KPoint.N(1230, 400);
+            public static KPoint Boss { get; } = KPoint.N(1231, 411);
+            public static KPoint Sword { get; } = KPoint.N(706, 403);
+            public static KPoint Sharingan { get; } = KPoint.N(753, 403);
+            public static KPoint Glove { get; } = KPoint.N(800, 403);
         }
 
         public static class Artifacts
         {
-            public static KPoint Reset_Yes { get; } = KPoint.N(1290, 740);
+            public static KPoint Reset_Yes { get; } = KPoint.N(1290, 750);
         }
         public static class SaveSettings
         {

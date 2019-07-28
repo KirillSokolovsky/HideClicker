@@ -20,17 +20,19 @@
 
     public partial class MainWindow : Window
     {
+        public GameModel Model { get; set; }
         private IntPtr _h;
+
+
 
         public MainWindow()
         {
+            Model = new GameModel();
+            this.DataContext = Model;
+
             InitializeComponent();
 
-            //var h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Google Chrome");
-            //_h = WinApi.FindWindowEx(h, IntPtr.Zero, "Chrome_RenderWidgetHostHWND", IntPtr.Zero);
-
-            _h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Mozilla Firefox");
-            KPointExt.WindowsHandle = _h;
+            ResetHandler_Click(null, null);
         }
 
         private GameCore _farmGc;
@@ -45,14 +47,37 @@
                 .AddGroup("Farm")
                     .AddSimple("Open Farm", MonsGame.Menu.Fight.LClick)
                     .AddPeriodical("Farm Click", MonsGame.Fight.Mons.LClick, TimeSpan.FromSeconds(30), TimeSpan.FromMilliseconds(10))
-                    .AddSimple("Click Boss", MonsGame.Fight.Boss.LClick)
                     .End()
                 .AddGroup("Upgrade")
                     .AddSimple("Open Avatars", MonsGame.Menu.Avatars.LClick)
                     .AddSimple("Upgrade", () =>
                     {
-                        MonsGame.Avatars.A1.LClick();
-                        MonsGame.Avatars.Buy.LClick(5);
+                        if (Model.IsDpsMode)
+                        {
+                            if (!Model.IsDpcOnly)
+                            {
+                                MonsGame.Avatars.A24.LClick();
+                                MonsGame.Avatars.Buy.LClick(5);
+                            }
+                            if (!Model.IsDpsOnly)
+                            {
+                                MonsGame.Avatars.A1.LClick();
+                                MonsGame.Avatars.Buy.LClick(5);
+                            }
+                        }
+                        else
+                        {
+                            if (!Model.IsDpsOnly)
+                            {
+                                MonsGame.Avatars.A1.LClick();
+                                MonsGame.Avatars.Buy.LClick(5);
+                            }
+                            if (!Model.IsDpcOnly)
+                            {
+                                MonsGame.Avatars.A24.LClick();
+                                MonsGame.Avatars.Buy.LClick(5);
+                            }
+                        }
                     })
                     .End();
 
@@ -71,7 +96,18 @@
                 .AddSimple("Open Save/Settings", MonsGame.Menu.SaveSettings.LClick)
                 .AddWait(1)
                 .AddSimple("Click Save", MonsGame.SaveSettings.Save.LClick)
-                .AddWait(5)
+                .AddWait(2)
+                .AddSimple("Open fight", MonsGame.Menu.Fight.LClick)
+                .AddWait(1)
+                .AddSimple("Boosts", () =>
+                {
+                    if (!Model.UseBoosts) return;
+                    MonsGame.Fight.Sword.LClick();
+                    MonsGame.Fight.Sharingan.LClick();
+                    MonsGame.Fight.Glove.LClick();
+                    MonsGame.Fight.Boss.LClick();
+
+                })
                 .End();
 
             return _saveGC;
@@ -102,16 +138,13 @@
         {
             _ts = new CancellationTokenSource();
             Task.Run(Do);
+            Model.IsStarted = true;
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             _ts.Cancel();
-        }
-
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
-        {
-
+            Model.IsStarted = false;
         }
 
         private void Do()
@@ -125,9 +158,12 @@
             var resetGc = GetResetGameCore();
             resetGc.CTS = _ts;
 
-            var fullTimeout = TimeSpan.FromHours(3);
+            //resetGc.Execute();
+            //return;
+
+            var fullTimeout = TimeSpan.FromHours(4) + TimeSpan.FromMinutes(10);
             //fullTimeout = TimeSpan.FromSeconds(20);
-            var saveTimeout = TimeSpan.FromMinutes(24);
+            var saveTimeout = TimeSpan.FromMinutes(31);
             //saveTimeout = TimeSpan.FromSeconds(10);
 
             while (!_ts.IsCancellationRequested)
@@ -139,10 +175,24 @@
                 {
                     //Save circle
                     var saveTime = DateTime.UtcNow;
-                    while(!_ts.IsCancellationRequested
-                        && DateTime.UtcNow - saveTime < saveTimeout)
+                    var startBossFightCounter = 20;
+                    while (!_ts.IsCancellationRequested
+                        && DateTime.UtcNow - saveTime < saveTimeout
+                        && DateTime.UtcNow - startTime < fullTimeout)
                     {
+                        Model.BossFightCounter = --startBossFightCounter;
+                        Model.SaveTime = saveTimeout - (DateTime.UtcNow - saveTime);
+                        Model.ResetTime = fullTimeout - (DateTime.UtcNow - startTime);
+
+                        if (startBossFightCounter == 0)
+                        {
+                            startBossFightCounter = 20;
+                            MonsGame.Menu.Fight.LClick();
+                            MonsGame.Fight.Boss.LClick();
+                        }
+
                         farmGc.Execute();
+
                         Thread.Sleep(1000);
                     }
                     saveGc.Execute();
@@ -150,6 +200,15 @@
 
                 resetGc.Execute();
             }
+        }
+
+        private void ResetHandler_Click(object sender, RoutedEventArgs e)
+        {
+            //var h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Google Chrome");
+            //_h = WinApi.FindWindowEx(h, IntPtr.Zero, "Chrome_RenderWidgetHostHWND", IntPtr.Zero);
+
+            _h = WinApi.FindWindow(IntPtr.Zero, "Idle Mons - Play on Armor Games - Mozilla Firefox");
+            KPointExt.WindowsHandle = _h;
         }
     }
 }

@@ -94,7 +94,7 @@
     </Compile>
     <Compile Include="GameActions.cs" />
     <Compile Include="MonsGame.cs" />
-    <Compile Include="GameScriptModel.cs" />
+    <Compile Include="GameModel.cs" />
     <Compile Include="KPoint.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

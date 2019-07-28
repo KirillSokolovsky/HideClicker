@@ -5,12 +5,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HideClicker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Hide Clicker" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight">
     <Grid>
+
+        <Grid.Resources>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Margin" Value="5"></Setter>
+                <Setter Property="Width" Value="150"></Setter>
+                <Setter Property="Height" Value="50"></Setter>
+            </Style>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            </Style>
+            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Margin" Value="5"></Setter>
+            </Style>
+        </Grid.Resources>
+
         <StackPanel>
-            <Button Name="StartButton" Click="StartButton_Click">Start</Button>
-            <Button Name="StopButton" Click="StopButton_Click">Stop</Button>
-            <Button Name="ResetButton" Click="ResetButton_Click">Reset</Button>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Name="ResetHandler" Click="ResetHandler_Click">Find Hwnd</Button>
+                <Button Name="StartButton" Click="StartButton_Click" Content="Start">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsStarted}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsStarted}" Value="False">
+                                    <Setter Property="IsEnabled" Value="True"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Name="StopButton" Click="StopButton_Click" Content="Stop">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsStarted}" Value="True">
+                                    <Setter Property="IsEnabled" Value="True"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsStarted}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+            <GroupBox Header="Modes">
+                <StackPanel>
+                    <CheckBox Content="Is DPS mode? (If no DPC mode)" IsChecked="{Binding IsDpsMode}"></CheckBox>
+                    <CheckBox Content="Is DPS only?" IsChecked="{Binding IsDpsOnly}"></CheckBox>
+                    <CheckBox Content="Is DPC only?" IsChecked="{Binding IsDpcOnly}"></CheckBox>
+                    <CheckBox Content="Use boosts?" IsChecked="{Binding UseBoosts}"></CheckBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Info">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Untill reset:</Label>
+                        <TextBlock Text="{Binding ResetTime}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Untill save:</Label>
+                        <TextBlock Text="{Binding SaveTime}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>Boss fight try:</Label>
+                        <TextBlock Text="{Binding BossFightCounter}"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
     </Grid>
 </Window>
