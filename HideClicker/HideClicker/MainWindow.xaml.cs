@@ -65,7 +65,7 @@
                             {
                                 MonsGame.Avatars.A1.LClick();
                                 Thread.Sleep(500);
-                                MonsGame.Avatars.Buy.LClick(5);
+                                MonsGame.Avatars.Buy.LClick(20);
                             }
                         }
                         else
@@ -74,7 +74,7 @@
                             {
                                 MonsGame.Avatars.A1.LClick();
                                 Thread.Sleep(500);
-                                MonsGame.Avatars.Buy.LClick(5);
+                                MonsGame.Avatars.Buy.LClick(20);
                                 Thread.Sleep(1000);
                             }
                             if (!Model.IsDpcOnly)
@@ -167,7 +167,7 @@
             //resetGc.Execute();
             //return;
 
-            var fullTimeout = TimeSpan.FromHours(4) + TimeSpan.FromMinutes(10);
+            var fullTimeout = TimeSpan.FromHours(3) + TimeSpan.FromMinutes(10);
             //fullTimeout = TimeSpan.FromSeconds(20);
             var saveTimeout = TimeSpan.FromMinutes(31);
             //saveTimeout = TimeSpan.FromSeconds(10);

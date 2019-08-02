@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class KPoint
@@ -37,6 +38,7 @@
             for (int i = 0; i < times; i++)
             {
                 MouseService.LeftClick(WindowsHandle, point.X, point.Y);
+                Thread.Sleep(100);
             }
         }
     }
